@@ -8,7 +8,7 @@ class SiteController
     {
         $categories = array();
         $categories = Category::getCategoriesList();
-        $latestProducts = Product::getLatestProducts(1);
+        $latestProducts = Product::getLatestProducts(3);
         require_once(ROOT . '/views/site/index.php');
         return true;
     }

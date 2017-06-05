@@ -15,19 +15,32 @@ class Product
         $db = Db::getConnection();
         $productList = array();
         $result = $db->prepare(
-            'SELECT id, name, price, image, is_new FROM product WHERE status = "1" ORDER BY id DESC'
+            'SELECT id, name, price, image, is_new FROM product WHERE status = "1" ORDER BY id DESC LIMIT :count'
         );
-        $result->execute(
-           );
-       ;
-
-        foreach ($result->fetch() as $row) {
-            $productList['id'] = $row['id'];
-            $productList['name'] = $row['name'];
-            $productList['image'] = $row['image'];
-            $productList['price'] = $row['price'];
-            $productList['is_new'] = $row['is_new'];
+        $result->execute(['count' => $count]);
+        foreach ($result->fetchAll() as $item) {
+            $productList[] = $item;
         }
+
         return $productList;
+    }
+    /*Возвращает массив продуктов по категории
+     * */
+    public static function getProductsListByCategory($categoryId = false)
+    {
+        if($categoryId) {
+            $db = Db::getConnection();
+            $products = array();
+            $result = $db->prepare(
+                'SELECT id, name, price, is_new FROM product WHERE status = "1" AND category_id = :categoryId ' .
+                ' ORDER BY id DESC LIMIT ' . self::SHOW_BY_DEFAULT
+            );
+            $result->execute(['categoryId' => $categoryId]);
+            foreach ($result->fetchAll() as $row) {
+                $products[] = $row;
+            }
+
+            return $products;
+        }
     }
 }
