@@ -1,5 +1,4 @@
 <?php
-require_once(ROOT . '/components/Db.php');
 
 class Category
 {

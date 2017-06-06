@@ -1,4 +1,8 @@
-<?php include(ROOT . '/layouts/header.php'); ?>
+
+<?php include(ROOT . '/layouts/header.php');
+// Главная страница "каталог"
+?>
+
 <section>
     <div class="container">
         <div class="row">

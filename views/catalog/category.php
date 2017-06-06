@@ -1,4 +1,6 @@
-<?php include(ROOT . '/layouts/header.php'); ?>
+<?php include(ROOT . '/layouts/header.php');
+// Страница категории
+?>
 <section>
     <div class="container">
         <div class="row">
@@ -9,7 +11,7 @@
                         <?php foreach ($categories as $categoryItem):; ?>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="/category/<?php echo $categoryItem['id']; ?>">
+                                    <h4 class="panel-title"><a class="<?php if($categoryId == $categoryItem['id']) echo 'active';?>" href="/category/<?php echo $categoryItem['id']; ?>">
                                             <?php echo $categoryItem['name']; ?></a></h4>
                                 </div>
                             </div>
@@ -30,6 +32,7 @@
                                         <img src="/template/images/home/product1.jpg" alt=""/>
                                         <h2><?php echo $product['price']; ?></h2>
                                         <p><a href="/product/<?php echo $product['id']; ?>">
+                                                ID:<?php echo $product['id'];?>
                                                 <?php echo $product['name']; ?></a>
                                             <a href="#" class="btn btn-default add-to-cart"><i
                                                     class="fa fa-shopping-cart"></i>В
@@ -42,12 +45,21 @@
                             </div>
                         </div>
                     <?php endforeach; ?>
+                    <?php echo $pagination->get();?>
                 </div><!--features_items-->
 
 
             </div>
         </div>
     </div>
+<!--    <ul class="pagination">-->
+<!--        <li><a href="/category/7/page-1">&lt;</a></li>-->
+<!--        <li><a href="/category/7/page-1">1</a></li>-->
+<!--        <li><a href="/category/7/page-2"></a>2</li>-->
+<!--        <li><a href="/category/7/page-3"></a>3</li>-->
+<!--        <li><a href="/category/7/page-4"></a>4</li>-->
+<!--        <li><a href="/category/7/page-4"></a>&gt;</li>-->
+<!--    </ul>-->
 </section>
 
 <?php include(ROOT . '/layouts/footer.php'); ?>

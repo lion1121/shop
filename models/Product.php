@@ -1,10 +1,9 @@
 <?php
-require_once(ROOT . '/components/Db.php');
 
 
 class Product
 {
-    const SHOW_BY_DEFAULT = 10;
+    const SHOW_BY_DEFAULT = 6;
 
     /*
      * Возвращает массив продуктов
@@ -26,21 +25,50 @@ class Product
     }
     /*Возвращает массив продуктов по категории
      * */
-    public static function getProductsListByCategory($categoryId = false)
+    public static function getProductsListByCategory($categoryId = false, $page = 1)
     {
         if($categoryId) {
+            $page = intval($page);
+            $offset = ($page - 1) * self::SHOW_BY_DEFAULT;
             $db = Db::getConnection();
             $products = array();
             $result = $db->prepare(
                 'SELECT id, name, price, is_new FROM product WHERE status = "1" AND category_id = :categoryId ' .
-                ' ORDER BY id DESC LIMIT ' . self::SHOW_BY_DEFAULT
+                ' ORDER BY id DESC LIMIT ' . self::SHOW_BY_DEFAULT . ' OFFSET :offset'
             );
-            $result->execute(['categoryId' => $categoryId]);
+            $result->execute([
+                'categoryId' => $categoryId,
+                'offset' => $offset
+            ]);
             foreach ($result->fetchAll() as $row) {
                 $products[] = $row;
             }
 
             return $products;
         }
+    }
+    public static function getProductById($id)
+    {
+        $id = intval($id);
+        if($id) {
+            $db = Db::getConnection();
+            $result = $db->prepare('
+            SELECT *  FROM product WHERE id = :id
+            ');
+            $result->execute(['id' => $id]);
+            return $result->fetch();
+        }
+    }
+    public static function getTotalProductsInCategory($categoryId)
+    {
+        $db = Db::getConnection();
+        $result = $db->prepare('
+            SELECT count(id) AS count FROM product WHERE status = "1" AND category_id = :categoryId
+        ');
+        $result->execute([
+            'categoryId' => $categoryId
+        ]);
+        $row = $result->fetch();
+        return $row['count'];
     }
 }
