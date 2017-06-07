@@ -3,9 +3,19 @@
 
 class User
 {
-    public static function register()
+    public static function signup($name, $email, $password)
     {
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
+        $db = Db::getConnection();
+        $result = $db->prepare('
+            INSERT INTO user (name, email, password) VALUES (:name, :email, :password)
+        ');
+        $result->execute([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password_hash
+        ]);
     }
 
     public static function checkName($name)
@@ -29,5 +39,19 @@ class User
             return true;
         }
         return false;
+    }
+    public static function checkEmailExists($email)
+    {
+        $db = Db::getConnection();
+        $result = $db->prepare('
+        SELECT COUNT(*) FROM user WHERE email = :email
+        ');
+        $result->execute(['email'=> $email]);
+        if ($result->fetchColumn()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
