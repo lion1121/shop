@@ -4,29 +4,32 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4 padding-right">
-                <?php if (isset($errors) && is_array($errors)){
-                    foreach ($errors as $error) {
-                        echo $error;
-                    }
-                }?>
-
 
                     <div class="signup-form">
                         <h2>Регистрация на сайте</h2>
                         <form action="#" method="POST">
+
                             <input type="text" name="name" placeholder="Имя" value="<?php echo $name?>">
-                            <p>
+                            <?php if (isset($errors) && is_array($errors)){ ?>
+                                <?php if (array_key_exists('name', $errors)):;?>
+                                    <p><?php echo $errors['name']?></p>
+                                <?php endif;?>
+                            <?php  };?>
 
-                            </p>
                             <input type="email" name="email" placeholder="E-mail" value="<?php echo $email?>">
-                            <p>
+                            <?php if (isset($errors)  && is_array($errors)){ ?>
+                                <?php if (array_key_exists('email', $errors)):;?>
+                                    <p><?php echo $errors['email']?></p>
+                                <?php endif;?>
+                            <?php  };?>
 
-                            </p>
                             <input type="password" name="password" placeholder="пароль" value="<?php echo $password?>">
-                            <p>
-
-                            </p>
-                            <input type="submit" class="btn btn-default" value="Регистрация">
+                                <?php if (isset($errors) && is_array($errors)){ ?>
+                                    <?php if (array_key_exists('password', $errors)):;?>
+                                        <p><?php echo $errors['password']?></p>
+                                    <?php endif;?>
+                              <?php  };?>
+                            <input type="submit" name="submit" class="btn btn-default" value="Регистрация">
                         </form>
                     </div>
 
@@ -34,4 +37,4 @@
         </div>
     </div>
 </section>
-<?php include ROOT . '/layouts/footer.php';?>
+0<?php include ROOT . '/layouts/footer.php';?>
