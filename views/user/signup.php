@@ -33,7 +33,7 @@
                                 <p><?php echo $errors['password'] ?></p>
                             <?php endif; ?>
                         <?php }; ?>
-                        <?php if ($errors == false):?>
+                        <?php if ( $_POST == true):?>
                             <p>Поздравляем, Вы успешно зареестрировались</p>
                         <?php endif;?>
                         <input type="submit" name="submit" class="btn btn-default" value="Регистрация">

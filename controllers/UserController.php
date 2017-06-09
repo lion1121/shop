@@ -43,4 +43,46 @@ class UserController
         require_once ROOT . '/views/user/signup.php';
         return true;
     }
+
+    public function actionSignin()
+    {
+        $email = '';
+        $password = '';
+
+        if (isset($_POST['submit'])) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $errors = false;
+            if (!User::checkEmail($email)) {
+                $errors['email'] = 'Некорректный email';
+            }
+
+            if (!User::checkPassword($password)) {
+                $errors[0]['password'] = 'Пароль не должен быть короче 6-ти символов';
+            }
+
+            $usersArray = User::getUsersEmailPassword($email, $password);
+            if (!is_array($usersArray)) {
+                $errors['access'] = 'Не верно введены email или пароль';
+            }
+            else {
+
+                User::auth($usersArray[0]['id']);
+                header('Location: /cabinet/');
+                exit();
+
+            }
+
+        }
+        require_once ROOT . '/views/user/signin.php';
+
+        return true;
+    }
+    public function actionLogout()
+    {
+        session_start();
+        unset($_SESSION['username']);
+        header('Location: /');
+    }
 }

@@ -12,6 +12,7 @@ class Category
         foreach ($result as $category) {
             $categoryList[] = $category;
         }
+
         return $categoryList;
     }
 }

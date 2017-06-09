@@ -1,4 +1,4 @@
-<?php include(ROOT . '/layouts/header.php'); ?>
+<?php include_once(ROOT . '/layouts/header.php'); ?>
 <section>
     <div class="container">
         <div class="row">
