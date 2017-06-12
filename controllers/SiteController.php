@@ -15,4 +15,14 @@ class SiteController
         require_once(ROOT . '/views/site/index.php');
         return true;
     }
+
+    public function actionContact()
+    {
+        $mail = 'site address';
+        $subject = '';
+        $message = '';
+        $result = $mail($mail, $subject, $message);
+        var_dump($result);
+        die();
+    }
 }
